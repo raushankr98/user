@@ -4,14 +4,9 @@
 
 function checkAnagram(str1, str2) {
   if (str1.length !== str2.length) return false;
-  let arr1 = str1.split("");
-  let arr2 = str2.split("");
-  arr1.sort();
-  arr2.sort();
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i] !== arr2[i]) return false;
-  }
-  return true;
+  let arr1 = str1.split("").sort().join("");
+  let arr2 = str2.split("").sort().join("");
+  return arr1 === arr2;
 }
 
 console.log(checkAnagram("bart", "brat"));

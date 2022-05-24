@@ -30,6 +30,22 @@ function Usercart() {
     }
   };
 
+  const debounce = (func, wait, immediate) => {
+    let timeout;
+    return function () {
+      const context = this,
+        args = arguments;
+      const later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      const callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
+
   const findUser = (e) => {
     setShowData(
       JSON.parse(localStorage.getItem("userData")).filter(
@@ -39,6 +55,8 @@ function Usercart() {
       )
     );
   };
+
+  const handleDeounce = debounce(findUser, 500);
 
   const handlePopupShow = (data) => {
     setPopupData(data);
@@ -60,7 +78,7 @@ function Usercart() {
       <input
         type="search"
         placeholder="Search"
-        onChange={(e) => findUser(e.target.value)}
+        onChange={(e) => handleDeounce(e.target.value)}
       />
       {showData ? (
         <table border="1">
